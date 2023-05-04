@@ -16,6 +16,9 @@ class Script_GUI(ttk.Frame):
         self.speed = tk.IntVar()
         self.speed.set(1)
 
+        # Setting the play/pause status
+        self.playing = False
+
         self.make_widgets()
     
     def make_widgets(self):
@@ -30,7 +33,25 @@ class Script_GUI(ttk.Frame):
         self.play_speed = ttk.Entry(self, textvariable=self.speed)
         self.play_speed.grid(row=1, column=1)
 
-        ttk.Button(self, text= 'Play', command=self.play_script).grid(row=0, column=1)
+        self.play_button = ttk.Button(self, text= 'Play', command=self.toggle_play)
+        self.play_button.grid(row=0, column=1)
+
+    def toggle_play(self):
+        # If currently playing, pause the script and change the button text to 'Play'
+        if self.playing:
+            time.sleep(2)
+            # TODO: Change from replay -> Pause
+            # self.playing = False
+            # self.play_button.config(text='Play')
+        # If currently paused, resume the script and change the button text to 'Pause'
+        else:
+            self.playing = True
+            self.play_button.config(text='Pause')
+            self.play_script()
+    
+    def pause_script(self):
+        self.playing = False
+        self.play_button.config(text='Play')
 
     def play_script(self):
         # Get the script file path
@@ -51,13 +72,13 @@ class Script_GUI(ttk.Frame):
         displayed_text = ""
 
         # Loop through each word in the script
-        for word in words:
+        while self.playing and word_index < len(words):
             # Replace newlines with tabs since single line
-            if word == '\n':
-                word = "\t\t"
+            if words[word_index] == '\n':
+                words[word_index] = "\t\t"
             
             # Add the word to the displayed text
-            displayed_text += word + " "
+            displayed_text += words[word_index] + " "
 
             # Remove the first word from the displayed text if the displayed text is too long
             if len(displayed_text) > 50:
@@ -73,7 +94,9 @@ class Script_GUI(ttk.Frame):
 
             # Increment the word index
             word_index += 1
-
+        # If the script has finished, change the button text back to 'Play'
+        if not self.playing:
+            self.play_button.config(text='Play')
 
 root = tk.Tk()
 Script_GUI(parent=root)
