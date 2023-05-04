@@ -52,15 +52,15 @@ class Script_GUI(ttk.Frame):
 
         # Loop through each word in the script
         for word in words:
-            # Replace newlines with tabs
-            if word == "\n":
-                word = "__________"
-
+            # Replace newlines with tabs since single line
+            if word == '\n':
+                word = "\t\t"
+            
             # Add the word to the displayed text
             displayed_text += word + " "
-            
+
             # Remove the first word from the displayed text if the displayed text is too long
-            if len(displayed_text) > 50:
+            if len(displayed_text) > 60:
                 displayed_text = displayed_text.split(" ", 1)[1]
             # Update the text box
             self.script_display.delete("1.0", tk.END)
