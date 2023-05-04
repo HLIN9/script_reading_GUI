@@ -60,8 +60,8 @@ class Script_GUI(ttk.Frame):
             displayed_text += word + " "
 
             # Remove the first word from the displayed text if the displayed text is too long
-            if len(displayed_text) > 60:
-                displayed_text = displayed_text.split(" ", 1)[1]
+            if len(displayed_text) > 50:
+                displayed_text = displayed_text[-50:]
             # Update the text box
             self.script_display.delete("1.0", tk.END)
             self.script_display.insert(tk.END, displayed_text)
