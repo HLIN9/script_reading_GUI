@@ -63,6 +63,8 @@ class Script_GUI(ttk.Frame):
         # Read the script file
         with open(script_path, 'r') as file:
             script = file.read()
+        # Replace newlines with tabs since single line
+        script = script.replace('\n', '_'*5) #\t does not register so have to use character '_'
 
         # Split the script into individual words
         words = script.split()
@@ -73,9 +75,6 @@ class Script_GUI(ttk.Frame):
 
         # Loop through each word in the script
         while self.playing and word_index < len(words):
-            # Replace newlines with tabs since single line
-            if words[word_index] == '\n':
-                words[word_index] = "\t\t"
             
             # Add the word to the displayed text
             displayed_text += words[word_index] + " "
