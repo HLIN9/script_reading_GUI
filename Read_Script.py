@@ -58,10 +58,14 @@ class Script_GUI(ttk.Frame):
 
             # Add the word to the displayed text
             displayed_text += word + " "
-
+            
+            # Remove the first word from the displayed text if the displayed text is too long
+            if len(displayed_text) > 50:
+                displayed_text = displayed_text.split(" ", 1)[1]
             # Update the text box
             self.script_display.delete("1.0", tk.END)
             self.script_display.insert(tk.END, displayed_text)
+            self.script_display.see(tk.END)
             self.script_display.update()
 
             # Delay the next word based on the play speed
